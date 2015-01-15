@@ -75,6 +75,11 @@ public final class Hadoop20YarnAppClient extends AbstractIdleService implements 
     appSubmissionContext.setApplicationName(twillSpec.getName());
     appSubmissionContext.setUser(user);
 
+    String queue = yarnClient.getConfig().get("mapreduce.job.queuename");
+    if (queue != null) {
+      appSubmissionContext.setQueue(queue);
+    }
+
     ApplicationSubmitter submitter = new ApplicationSubmitter() {
 
       @Override

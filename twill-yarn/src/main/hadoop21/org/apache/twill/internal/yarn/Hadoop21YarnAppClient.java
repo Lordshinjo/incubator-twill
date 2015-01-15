@@ -69,6 +69,11 @@ public final class Hadoop21YarnAppClient extends AbstractIdleService implements 
     appSubmissionContext.setApplicationId(appId);
     appSubmissionContext.setApplicationName(twillSpec.getName());
 
+    String queue = yarnClient.getConfig().get("mapreduce.job.queuename");
+    if (queue != null) {
+      appSubmissionContext.setQueue(queue);
+    }
+
     ApplicationSubmitter submitter = new ApplicationSubmitter() {
       @Override
       public ProcessController<YarnApplicationReport> submit(YarnLaunchContext context, Resource capability) {
